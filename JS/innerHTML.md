@@ -73,6 +73,21 @@ document.getElementById("content").innerHTML =
    document.getElementById("output").textContent = userInput;
    ```
 
+3. **insertAdjacentHTML 사용**
+   요소(element)의 내용을 변경하는 대신 HTML을 문서(document)에 삽입하려면, insertAdjacentHTML() 메서드를 사용하십시오.
+
+```
+element.insertAdjacentHTML(position, text);
+
+```
+
+- position 값:
+
+"beforebegin": 대상 요소 바로 앞에 삽입
+"afterbegin": 대상 요소의 첫 번째 자식 요소로 삽입
+"beforeend": 대상 요소의 마지막 자식 요소로 삽입
+"afterend": 대상 요소 바로 뒤에 삽입
+
 ### 결론
 
 `innerHTML`을 사용하는 것은 보안, 성능, 유지보수 측면에서 여러 문제를 일으킬 수 있습니다. 대신, DOM 메서드를 사용하여 요소를 생성하고 추가하는 방법을 사용하는 것이 좋습니다. 이를 통해 코드의 안전성과 효율성을 높일 수 있습니다.
