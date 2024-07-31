@@ -49,8 +49,43 @@ app.listen(port, () => {
 - **보안 강화:** 허용된 출처만 데이터에 접근할 수 있도록 제한하여, XSS(Cross-Site Scripting) 등의 공격을 방지합니다.
 - **API 공개:** 다른 개발자가 자신의 API를 안전하게 사용할 수 있도록 합니다.
 
-### iframe이란?
+### iframe와 CORS?
 
 iframe은 HTML 문서 내에 다른 웹 페이지를 포함시킬 수 있는 요소입니다. 마치 웹 페이지 안에 작은 창을 띄워 놓는 것처럼, 다른 웹 서버에서 호스팅되는 콘텐츠를 현재 페이지에 삽입하여 다양한 기능을 구현하는 데 활용됩니다. 예를 들어, 유튜브 영상을 웹 페이지에 직접 embed 하거나, 다른 사이트의 지도를 가져와 보여주는 등의 기능을 구현할 때 iframe을 사용합니다.
 
 iframe을 사용하여 다른 도메인의 콘텐츠를 불러올 때 CORS 에러 발생할 수 있다.
+
+### CORS 시나리오
+
+CORS는 요청의 종류에 따라 크게 세 가지 시나리오로 나눌 수 있습니다.
+
+1. Preflight Request (예비 요청)
+   특징:
+   실제 요청을 보내기 전에 서버에 미리 요청 방법, 헤더 정보 등을 확인하는 요청입니다.
+   복잡한 요청(PUT, DELETE 등)이나 사용자 정의 헤더를 포함하는 요청에 대해 발생합니다.
+   과정:
+   브라우저가 실제 요청을 보내기 전에 OPTIONS 메서드로 예비 요청을 보냅니다.
+   예비 요청에는 Access-Control-Request-Method, Access-Control-Request-Headers 헤더를 포함하여 실제 요청에서 사용할 메서드와 헤더를 알려줍니다.
+   서버는 예비 요청에 대한 응답으로 Access-Control-Allow-Methods, Access-Control-Allow-Headers 헤더를 포함하여 허용하는 메서드와 헤더를 알려줍니다.
+   서버가 허용한다면 브라우저는 실제 요청을 보냅니다.
+   예시:
+   AJAX로 다른 도메인의 API에 POST 요청을 보낼 때
+
+2. Simple Request (단순 요청)
+   특징:
+   예비 요청 없이 바로 실제 요청을 보내는 간단한 요청입니다.
+   GET, HEAD 메서드를 사용하고, 요청 헤더가 Content-Type: application/x-www-form-urlencoded, multipart/form-data, text/plain 중 하나일 때 발생합니다.
+   과정:
+   브라우저가 바로 실제 요청을 보냅니다.
+   서버는 응답 헤더에 Access-Control-Allow-Origin 헤더를 포함하여 허용하는 출처를 지정합니다.
+   예시:
+   이미지, CSS 파일 등 정적 자원을 로드할 때
+
+3. Credentialed Request (인증된 요청)
+   특징:
+   쿠키, 인증 정보 등을 포함하는 요청입니다.
+   서버에서 적절한 응답 헤더를 설정해야 합니다.
+   과정:
+   예비 요청 또는 단순 요청과 유사하게 진행되지만, 서버에서 Access-Control-Allow-Credentials 헤더를 true로 설정해야 합니다.
+   예시:
+   로그인 상태에서 다른 도메인의 API를 호출할 때
