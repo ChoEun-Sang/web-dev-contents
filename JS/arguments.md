@@ -32,3 +32,7 @@ func1(1, 2, 3);
 > 참고 1. "Array 형태"란 arguments가 length 속성과 더불어 0부터 인덱스 된 다른 속성을 가지고 있지만, Array의 forEach, map과 같은 내장 메서드를 가지고 있지 않다는 뜻입니다.
 
 > 참고 2. 화살표 함수는 arguments 객체를 가지고 있지 않는다.
+
+### 참고
+
+[arguments 객체](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/arguments)
