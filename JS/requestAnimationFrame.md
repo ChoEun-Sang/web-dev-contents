@@ -30,6 +30,9 @@ setInterval(animation, 1000 / 60);
 
 requestAnimationFrame 를 통해 애니메이션을 구현할 때, 각 프레임이 브라우저의 프레임 주기에 맞추어 일정한 시간 간격으로 렌더링됩니다. 지연 및 블로킹 현상이 생기지 않아 보다 부드러운 애니메이션을 제공합니다.
 
+> rAF의 콜백은 setTimeout이 처리되는 Task Queue보다 우선순위가 높은 Animation Frames에서 처리되며 브라우저가 렌더링하는 빈도인 60pfs에 맞춰서 실행됩니다. 따라서 setTimeout을 사용한 것보다 실행 시간을 더 보장할 수 있습니다<br/>
+> 출처: [카카오엔터프라이즈 기술블로그 Tech&(테크앤):티스토리](https://tech.kakaoenterprise.com/149)
+
 #### requestAnimationFrame 사용법
 
 requestAnimationFrame 사용법은 setTimeout 처럼 콜백 함수 내부에서 재귀 호출 하는 식으로 구성하면 됩니다. 차이점은 setTimeout 은 타이머를 지정해주어야 하지만, requestAnimationFrame 은 프레임 단위로 동작하기 때문에 별도의 반복 플래그가 필요 없다는 점입니다.
