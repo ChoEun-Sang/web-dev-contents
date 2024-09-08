@@ -1,8 +1,11 @@
 ## enum
 
 - 열거형, 여러 값들에 미리 이름을 정의하여 열거해두고 사용하는 타입
-- js에서 객체를 사용해서 enum과 비슷하게 구현할 수 있지만, `key`, `value`가 변경될 수 있다.
+- 관련이 높은 멤버를 모아 문자열 상수처럼 사용하고자 할때 유용하게 쓸 수 있다.
 - enum은 선언한 값을 외부에서 변경할 수 없다.
+- 숫자 상수로 관리하는 열거형은 선언한 값 이외의 값을 할당하거나 접근해도 에러를 발생시키지 않기 때문에 숫자 상수는 사용하지 않는 것을 권장한다.
+- 역방향으로 접근했을 때 오류를 내지 않는다. 대신 const enum는 역방향 접근을 허용하지 않는다.
+- js에서 객체를 사용해서 enum과 비슷하게 구현할 수 있지만, `key`, `value`가 변경될 수 있다.
 
 ```js
 // 값을 지정하지 않으면 0부터 숫자를 매긴다.
@@ -16,7 +19,7 @@
   }
 
 
-    enum Artist{
+    enum Artist {
     beyonce = "beyonce",
     tyla = "tyla",
     ladygaga = "ladygaga",
@@ -93,13 +96,21 @@ export var Artist;
 
 ### 개선 방안
 
-1. Union Type의 사용 (추천)
+1. as const assertion을 사용해서 Union Type의 사용 (추천)
 
 - 사용할 수 있는 요소들을 지정해서 지정된 값만 사용할 수 있도록 한다.
 
-```js
-type Artist = "beyonce" | "tyla" | "ladygaga";
-```
+````js
+const Artist = {
+    beyonce = "beyonce1",
+    tyla = "tyla2",
+    ladygaga = "ladygaga3",
+    taylorSwift = "taylorSwift4",
+    brunoMars = "brunoMars5",
+} as const
+
+type Key = keyof typeof Artist; // type Artist = "beyonce" | "tyla" | "ladygaga" | "taylorSwift" | "brunoMars" ;
+type Value = (typeof Artist)[Key]; // type Value = "beyonce1" | "tyla2" | "ladygaga3" | "taylorSwift4" | "brunoMars5" ;
 
 2. const enum의 사용
 
@@ -116,7 +127,7 @@ const enum Artist{
   }
 
 const tyla = Artist.tyla // => const tyla = "tyla"
-```
+````
 
 ## 참고
 
